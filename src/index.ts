@@ -21,7 +21,7 @@ function onClickStop() {
     'start',
   ) as HTMLButtonElement).onclick = onClickStart;
 }
-let worker = new Worker('/dist/worker.js', { type: 'module' });
+let worker = new Worker('./dist/worker.js', { type: 'module' });
 function start() {
   worker.postMessage({
     msg: 'start',
