@@ -17,7 +17,7 @@ function onClickStop() {
   document.getElementById("start").innerText = "Start";
   document.getElementById("start").onclick = onClickStart;
 }
-let worker = new Worker("/dist/worker.js", {type: "module"});
+let worker = new Worker("./dist/worker.js", {type: "module"});
 function start() {
   worker.postMessage({
     msg: "start",
