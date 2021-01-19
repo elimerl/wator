@@ -7,7 +7,15 @@
     "lint": "prettier --check \"src/**/*.{ts,js}\""
   },
   "dependencies": {
-    "canvas-confetti": "^1.2.0"
+    "@types/bootstrap": "^5.0.4",
+    "@types/chart.js": "^2.9.29",
+    "@types/ndarray": "^1.0.8",
+    "bootstrap": "^4.5.3",
+    "canvas-confetti": "^1.2.0",
+    "chart.js": "^2.9.4",
+    "jquery": "^3.5.1",
+    "ndarray": "^1.0.19",
+    "popper.js": "^1.16.1"
   },
   "devDependencies": {
     "@snowpack/plugin-typescript": "^1.2.0",
