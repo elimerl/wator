@@ -9,7 +9,9 @@ class Simulation {
   data: (Swimmer | null)[][];
   width: number;
   height: number;
+  ticks: number;
   constructor(parameters: IWatorParameters, width: number, height: number) {
+    this.ticks = 0;
     this.width = width;
     this.height = height;
     this.parameters = parameters;
@@ -38,6 +40,7 @@ class Simulation {
     }
   }
   tick() {
+    this.ticks++;
     console.log('Running tick');
     // seperate out fish and sharks
     //@ts-expect-error

@@ -1,11 +1,49 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import bootstrap from 'bootstrap';
+import { Chart } from 'chart.js';
+const chart = new Chart(document.getElementById('chart') as HTMLCanvasElement, {
+  type: 'line',
+  data: {
+    datasets: [
+      { label: 'Sharks', backgroundColor: 'green' },
+      { label: 'Fish', backgroundColor: 'blue' },
+    ],
+  },
+  options: {
+    elements: { line: { fill: false } },
+    responsive: false,
+    scales: {
+      xAxes: [
+        {
+          type: 'linear',
+        },
+      ],
+    },
+    animation: { duration: 0.1 },
+  },
+});
 (document.getElementById('start') as HTMLButtonElement).onclick = onClickStart;
 function onClickStart() {
+  chart.data = {
+    datasets: [
+      { label: 'Sharks', backgroundColor: 'green' },
+      { label: 'Fish', backgroundColor: 'blue' },
+    ],
+  };
   if (!worker) worker = new Worker('/dist/worker.js', { type: 'module' });
   worker.onmessage = (ev) => {
     const data: (Swimmer | null)[][] = ev.data.data;
+    const ticks: number = ev.data.ticks;
     render(data);
+    //@ts-expect-error
+    const fish: Fish[] = data.flat(1).filter((v) => v?.isFish).length;
+    //@ts-expect-error
+    const sharks: Shark[] = data.flat(1).filter((v) => v?.isShark).length;
+    //@ts-expect-error
+    chart.data.datasets[0].data?.push({ x: ticks, y: sharks });
+    //@ts-expect-error
+    chart.data.datasets[1].data?.push({ x: ticks, y: fish });
+    chart.update();
   };
   start();
   (document.getElementById('start') as HTMLButtonElement).innerText = 'Stop';
