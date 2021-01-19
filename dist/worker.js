@@ -5,6 +5,7 @@ function mod(a, n) {
 const sample = (arr) => arr[Math.floor(Math.random() * arr.length)];
 class Simulation {
   constructor(parameters, width, height) {
+    this.ticks = 0;
     this.width = width;
     this.height = height;
     this.parameters = parameters;
@@ -29,6 +30,7 @@ class Simulation {
     }
   }
   tick() {
+    this.ticks++;
     console.log("Running tick");
     const fishArr = this.data.flat(1).filter((v) => v?.isFish);
     const sharks = this.data.flat(1).filter((v) => v?.isShark);

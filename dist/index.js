@@ -1,11 +1,45 @@
 import "../_snowpack/pkg/bootstrap/dist/css/bootstrap.min.css.proxy.js";
+import {Chart} from "../_snowpack/pkg/chartjs.js";
+const chart = new Chart(document.getElementById("chart"), {
+  type: "line",
+  data: {
+    datasets: [
+      {label: "Sharks", backgroundColor: "green"},
+      {label: "Fish", backgroundColor: "blue"}
+    ]
+  },
+  options: {
+    elements: {line: {fill: false}},
+    responsive: false,
+    scales: {
+      xAxes: [
+        {
+          type: "linear"
+        }
+      ]
+    },
+    animation: {duration: 0.1}
+  }
+});
 document.getElementById("start").onclick = onClickStart;
 function onClickStart() {
+  chart.data = {
+    datasets: [
+      {label: "Sharks", backgroundColor: "green"},
+      {label: "Fish", backgroundColor: "blue"}
+    ]
+  };
   if (!worker)
     worker = new Worker("/dist/worker.js", {type: "module"});
   worker.onmessage = (ev) => {
     const data = ev.data.data;
+    const ticks = ev.data.ticks;
     render(data);
+    const fish = data.flat(1).filter((v) => v?.isFish).length;
+    const sharks = data.flat(1).filter((v) => v?.isShark).length;
+    chart.data.datasets[0].data?.push({x: ticks, y: sharks});
+    chart.data.datasets[1].data?.push({x: ticks, y: fish});
+    chart.update();
   };
   start();
   document.getElementById("start").innerText = "Stop";
